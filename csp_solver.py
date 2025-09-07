@@ -1,11 +1,9 @@
 from typing import List, Dict
 from models import Course, ClassOption
 
-
 def schedules_conflict(option1: ClassOption, option2: ClassOption) -> bool:
     """
     Check if two class options conflict in time.
-    Conflict happens if they are on the same day and times overlap.
     """
     for day1, start1, end1 in option1.times:
         for day2, start2, end2 in option2.times:
@@ -13,15 +11,14 @@ def schedules_conflict(option1: ClassOption, option2: ClassOption) -> bool:
                 return True
     return False
 
-
 def solve_all_schedules(courses: List[Course]) -> List[Dict[str, ClassOption]]:
     """
     Backtracking CSP solver that finds ALL valid schedules without conflicts.
-    Returns a list of possible assignments (schedules).
+    Returns a list of possible assignments, sorted by total priority.
     """
     solutions = []
 
-    def backtrack(assignment, index):
+    def backtrack(assignment: Dict[str, ClassOption], index: int):
         if index == len(courses):
             solutions.append(assignment.copy())
             return
@@ -38,4 +35,8 @@ def solve_all_schedules(courses: List[Course]) -> List[Dict[str, ClassOption]]:
                 del assignment[course.name]
 
     backtrack({}, 0)
+
+    # Sort solutions by total priority (sum of priorities of selected options)
+    solutions.sort(key=lambda s: -sum(opt.priority for opt in s.values()))
+
     return solutions

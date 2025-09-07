@@ -4,17 +4,19 @@ class ClassOption:
     """
     Represents a single class option of a course (a specific teacher + schedule).
     """
-    def __init__(self, teacher: str, times: List[Tuple[str, str, str]]):
+    def __init__(self, teacher: str, times: List[Tuple[str, str, str]], priority: int = 0):
         """
         :param teacher: Teacher's name (e.g. "محمدی")
         :param times: List of tuples (day, start_time, end_time)
                       Example: [("دوشنبه", "14:00", "15:30")]
+        :param priority: Priority of this option (higher means preferred, default 0)
         """
         self.teacher = teacher
         self.times = times
+        self.priority = priority
 
     def __repr__(self):
-        return f"ClassOption(teacher={self.teacher}, times={self.times})"
+        return f"ClassOption(teacher={self.teacher}, times={self.times}, priority={self.priority})"
 
 
 class Course:
