@@ -1,10 +1,11 @@
 import sys
+import os
 import logging
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QLabel,
     QTextEdit, QPushButton, QMessageBox
 )
-from PyQt6.QtGui import QFont, QFontDatabase
+from PyQt6.QtGui import QFont, QIcon
 from parser import parse_courses
 from csp_solver import solve_all_schedules
 
@@ -17,6 +18,14 @@ class CourseSchedulerApp(QWidget):
         logging.debug("Initializing CourseSchedulerApp")
         self.setWindowTitle("دستیار انتخاب واحد")
         self.setGeometry(200, 100, 800, 600)
+
+        # Set window icon
+        icon_path = "resources/calendar.ico"
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
+            logging.debug(f"Window icon set to {icon_path}")
+        else:
+            logging.warning(f"Icon file {icon_path} not found")
 
         # Layout
         layout = QVBoxLayout()
